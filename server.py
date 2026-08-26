@@ -37,17 +37,17 @@ def app(environ, start_response):
             status = "405 Method Not Allowed" 
 
     elif len(path) == 3 and path[1] == 'tasks' and path[2].isdigit():
+        id = int(path[2])
+        valid_id = id in tasks
 
         if method == 'GET':
-            id = int(path[2])
-            if id in tasks:
+            if valid_id:
                 response_body = json.dumps(tasks.get(id)).encode("utf-8")
             else:
                 status = "404 Not Found"
 
         elif method == 'PATCH':
-            id = int(path[2])
-            if id in tasks:
+            if valid_id:
                 content_length = int(environ.get('CONTENT_LENGTH'))
 
                 input = environ['wsgi.input']
@@ -63,8 +63,7 @@ def app(environ, start_response):
                 status = "404 Not Found"
 
         elif method == 'DELETE':
-            id = int(path[2])
-            if id in tasks: 
+            if valid_id: 
                 del tasks[id]
                 status = "204 No Content"
             else: 
