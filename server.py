@@ -45,6 +45,23 @@ def app(environ, start_response):
             else:
                 status = "404 Not Found"
 
+        elif method == 'PATCH':
+            id = int(path[2])
+            if id in tasks:
+                content_length = int(environ.get('CONTENT_LENGTH'))
+
+                input = environ['wsgi.input']
+                body = input.read(content_length)
+
+
+                task_data = json.loads(body)
+                tasks[id].update(task_data)
+
+
+                response_body = json.dumps(tasks[id]).encode("utf-8")
+            else: 
+                status = "404 Not Found"
+
     else:
         pass
 
