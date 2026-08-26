@@ -1,16 +1,19 @@
 from wsgiref.simple_server import make_server
 import json
 
+tasks = dict()
+id = 0
 
 def app(environ, start_response):
+    global tasks
+    global id
 
     status = "200 OK"
     headers = [("Content-Type", "application/json")]
     method = environ.get('REQUEST_METHOD')
     path = environ.get('PATH_INFO').split('/')
     response_body = b""
-    tasks = dict()
-    id = 0
+    
 
 
     if len(path) == 2 and path[1] == 'tasks':
