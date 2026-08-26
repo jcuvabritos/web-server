@@ -62,6 +62,13 @@ def app(environ, start_response):
             else: 
                 status = "404 Not Found"
 
+        elif method == 'DELETE':
+            id = int(path[2])
+            if id in tasks: 
+                del tasks[id]
+                status = "204 No Content"
+            else: 
+                status = "404 Not Found"
     else:
         pass
 
